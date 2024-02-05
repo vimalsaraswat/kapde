@@ -3,6 +3,8 @@ import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 
 import { TRPCReactProvider } from "@/trpc/react";
+import { getServerAuthSession } from "@/server/auth";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,15 +17,40 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  buyer,
+  seller,
 }: {
   children: React.ReactNode;
+  buyer: React.ReactNode;
+  seller: React.ReactNode;
 }) {
+  const session = await getServerAuthSession();
+
+  if (session?.user) {
+    const role = session?.user.role;
+    if (role === "BUYER") return <Layout>{buyer}</Layout>;
+    if (role === "SELLER") return <Layout>{seller}</Layout>;
+  }
+
+  return <Layout>{children}</Layout>;
+}
+
+function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );
