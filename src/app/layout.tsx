@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 
 import { TRPCReactProvider } from "@/trpc/react";
+import { Toaster } from "@/components/ui/toaster";
 import { getServerAuthSession } from "@/server/auth";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -51,6 +52,7 @@ function Layout({ children }: { children: React.ReactNode }) {
             {children}
           </ThemeProvider>
         </TRPCReactProvider>
+        <Toaster />
       </body>
     </html>
   );
