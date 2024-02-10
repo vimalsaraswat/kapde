@@ -64,7 +64,7 @@ const Dropzone = React.forwardRef<HTMLDivElement, DropzoneProps>(
             <span className="text-sm font-medium">{dropMessage}</span>
             <Input
               {...props}
-              value={undefined}
+              value=""
               ref={inputRef}
               type="file"
               className={cn("hidden", className)}
@@ -78,5 +78,7 @@ const Dropzone = React.forwardRef<HTMLDivElement, DropzoneProps>(
     );
   },
 );
+
+Dropzone.displayName = "Dropzone";
 
 export default Dropzone;

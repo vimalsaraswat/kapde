@@ -66,11 +66,10 @@ const ImageDropzone = React.forwardRef<HTMLDivElement, ImageDropzoneProps>(
       }
 
       const validFiles: image[] = [];
-      for (let i = 0; i < acceptedFiles.length; i++) {
+      for (const file of acceptedFiles) {
         if (!(images.length + validFiles.length < maxFiles)) {
           break;
         }
-        const file = acceptedFiles[i] as File;
         const fileType = allowedTypes.find((allowedType) =>
           allowedType.types.find((type) => type === file.type),
         );
@@ -91,7 +90,12 @@ const ImageDropzone = React.forwardRef<HTMLDivElement, ImageDropzoneProps>(
     }
 
     return (
-      <div className="4xl:grid-cols-[repeat(4,1fr)] grid h-full w-full grid-cols-[repeat(2,1fr)] gap-2 2xl:grid-cols-[repeat(3,1fr)]">
+      <div
+        className={cn(
+          "4xl:grid-cols-[repeat(4,1fr)] grid h-full w-full grid-cols-[repeat(2,1fr)] gap-2 2xl:grid-cols-[repeat(3,1fr)]",
+          className,
+        )}
+      >
         <Dropzone
           {...props}
           classNameWrapper={cn("aspect-square", dropzoneDisabled && "hidden")}
@@ -146,5 +150,7 @@ const ImageDropzone = React.forwardRef<HTMLDivElement, ImageDropzoneProps>(
     );
   },
 );
+
+ImageDropzone.displayName = "Image Dropzone";
 
 export default ImageDropzone;
