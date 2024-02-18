@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 import { ProductCategories } from "@prisma/client";
 
 export const productRouter = createTRPCRouter({
@@ -28,4 +32,30 @@ export const productRouter = createTRPCRouter({
         },
       });
     }),
+
+  getAll: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.product.findMany({
+      orderBy: { createdAt: "desc" },
+      where: { createdBy: { id: ctx.session.user.id } },
+    });
+  }),
+
+  category: publicProcedure
+    .input(z.nativeEnum(ProductCategories))
+    .query(({ ctx, input }) => {
+      return ctx.db.product.findMany({
+        where: { category: input },
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          priceInCents: true,
+          images: true,
+        },
+      });
+    }),
+
+  getProduct: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    return ctx.db.product.findUnique({ where: { id: input } });
+  }),
 });
