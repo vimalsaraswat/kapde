@@ -64,16 +64,16 @@ export async function createProduct(formData: FormData) {
   const { name, description, price, quantity, category } = validatedFields.data;
   const priceInCents = price * 100;
 
-  // Insert data into the database
-  await api.product.create.mutate({
-    name,
-    description,
-    priceInCents,
-    quantity,
-    category,
-    images: imgUrls,
-  });
   try {
+    // Insert data into the database
+    await api.product.create.mutate({
+      name,
+      description,
+      priceInCents,
+      quantity,
+      category,
+      images: imgUrls,
+    });
   } catch (error) {
     return {
       message: "Database Error: Failed to Create Product.",
