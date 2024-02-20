@@ -58,4 +58,10 @@ export const productRouter = createTRPCRouter({
   getProduct: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     return ctx.db.product.findUnique({ where: { id: input } });
   }),
+
+  deleteById: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.product.delete({ where: { id: input } });
+    }),
 });
