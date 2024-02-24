@@ -36,6 +36,7 @@
     "cloudinary": "^2.0.1",
     "clsx": "^2.1.0",
     "embla-carousel-react": "8.0.0-rc22",
+    "framer-motion": "^11.0.6",
     "next": "^14.1.0",
     "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",
@@ -43,9 +44,11 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.50.1",
     "server-only": "^0.0.1",
+    "sonner": "^1.4.0",
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
+    "use-debounce": "^10.0.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
