@@ -11,8 +11,8 @@ export default async function Page({
     category: string;
   };
 }) {
-  const query = searchParams?.query || "";
-  const category = (searchParams?.category || "").toUpperCase();
+  const query = searchParams?.query ?? "";
+  const category = (searchParams?.category ?? "").toUpperCase();
   if (category && !(category in ProductCategories)) return notFound();
 
   return (

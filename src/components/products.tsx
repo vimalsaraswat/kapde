@@ -45,8 +45,8 @@ const Products = ({
   } = api.product.getProducts.useInfiniteQuery(
     {
       limit: 12,
-      query: query || undefined,
-      category: category || undefined,
+      query: query ?? undefined,
+      category: category ?? undefined,
     },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -55,15 +55,13 @@ const Products = ({
 
   useEffect(() => {
     if (inView && hasNextPage) {
-      fetchNextPage();
+      void fetchNextPage();
     }
   }, [hasNextPage, inView, fetchNextPage]);
 
-  if (error as any)
+  if (error)
     return (
-      <div className="mt-10">
-        {"An error has occurred: " + (error as any).message}
-      </div>
+      <div className="mt-10">{"An error has occurred: " + error.message}</div>
     );
 
   return (
@@ -84,7 +82,7 @@ const Products = ({
                     name={product.name}
                     description={product.description}
                     price={product.priceInCents * 100}
-                    image={product.images[0] as string}
+                    image={product.images[0]!}
                   />
                 );
               }),
