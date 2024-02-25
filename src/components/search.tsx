@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 "use client";
 
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
