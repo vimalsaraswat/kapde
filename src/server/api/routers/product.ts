@@ -40,11 +40,47 @@ export const productRouter = createTRPCRouter({
     });
   }),
 
-  category: publicProcedure
-    .input(z.nativeEnum(ProductCategories))
-    .query(({ ctx, input }) => {
-      return ctx.db.product.findMany({
-        where: { category: input },
+  getProducts: publicProcedure
+    .input(
+      z.object({
+        limit: z.number(),
+        cursor: z.string().nullish(),
+        skip: z.number().optional(),
+        query: z.string().optional(),
+        category: z.nativeEnum(ProductCategories).optional(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { limit, skip, cursor, query, category } = input;
+      const items = await ctx.db.product.findMany({
+        take: limit + 1,
+        skip: skip,
+        cursor: cursor ? { id: cursor } : undefined,
+        where: {
+          category: category ? category : undefined,
+
+          ...(query
+            ? {
+                OR: [
+                  {
+                    name: {
+                      contains: query,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    description: {
+                      contains: query,
+                      mode: "insensitive",
+                    },
+                  },
+                ],
+              }
+            : {}),
+        },
+        orderBy: {
+          id: "asc",
+        },
         select: {
           id: true,
           name: true,
@@ -53,6 +89,15 @@ export const productRouter = createTRPCRouter({
           images: true,
         },
       });
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (items.length > limit) {
+        const nextItem = items.pop();
+        nextCursor = nextItem?.id;
+      }
+      return {
+        items,
+        nextCursor,
+      };
     }),
 
   getProduct: publicProcedure.input(z.string()).query(({ ctx, input }) => {
