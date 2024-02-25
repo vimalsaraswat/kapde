@@ -26,7 +26,7 @@ const ProductCard = ({ name, description, image, price }: ProductProps) => {
 
   useEffect(() => {
     if (inView) {
-      controls.start("show");
+      void controls.start("show");
     }
   }, [controls, inView]);
 
@@ -51,24 +51,24 @@ const ProductCard = ({ name, description, image, price }: ProductProps) => {
       ref={ref}
       className="list-none"
     >
-      <Card className=" ounded-lg text-start shadow-md transition duration-300 hover:shadow-lg">
+      <Card className="text-start shadow-md transition duration-300 hover:shadow-lg">
         <CardHeader className="relative p-0">
           <Image
             src={image}
             width={400}
             height={400}
             alt="Product Image"
-            className="aspect-square w-full bg-center"
+            className="aspect-square w-full rounded-t-[calc(theme(borderRadius.xl)-1px)] bg-center"
           />
         </CardHeader>
         <CardContent className="p-4">
           <CardTitle className="mb-2 text-xl font-semibold">{name}</CardTitle>
-          <CardDescription className="mb-4 line-clamp-3">
+          <CardDescription className="mb-4 line-clamp-2">
             {description}
           </CardDescription>
-          <p className="mb-2 text-popover-foreground">{formatUSD(price)}</p>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex justify-between">
+          <p className="mb-2 text-popover-foreground">{formatUSD(price)}</p>
           <Button variant="secondary">Add to Cart</Button>
         </CardFooter>
       </Card>
