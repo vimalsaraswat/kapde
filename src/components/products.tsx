@@ -79,6 +79,7 @@ const Products = ({
                 return (
                   <ProductCard
                     key={product.id}
+                    id={product.id}
                     name={product.name}
                     description={product.description}
                     price={product.priceInCents * 100}
@@ -90,10 +91,11 @@ const Products = ({
         </motion.ul>
       )}
       <div ref={ref}></div>
-      {(isLoading || isFetchingNextPage) && <p className="mb-4">Loading...</p>}
-      {!hasNextPage && (
-        <p className="mb-4 text-center">Sorry, no more items at the moment!</p>
-      )}
+      <p className="my-4 text-center">
+        {isLoading || isFetchingNextPage
+          ? "Loading..."
+          : "Sorry, no more items at the moment!"}
+      </p>
     </section>
   );
 };
