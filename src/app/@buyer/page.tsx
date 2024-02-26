@@ -12,7 +12,7 @@ export default async function Page({
   };
 }) {
   const query = searchParams?.query ?? "";
-  const category = (searchParams?.category ?? "").toUpperCase();
+  const category = searchParams?.category?.toUpperCase();
   if (category && !(category in ProductCategories)) return notFound();
 
   return (
