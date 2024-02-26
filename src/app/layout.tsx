@@ -10,6 +10,7 @@ import { UserAccountNav } from "@/components/user-account-nav";
 import { MainNav } from "@/components/main-nav";
 import BuyerConfig from "@/config/buyer";
 import SellerConfig from "@/config/seller";
+import { SiteFooter } from "@/components/site-footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -53,7 +54,9 @@ export default async function RootLayout({
 function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`relative h-dvh w-dvw font-sans ${inter.variable}`}>
+      <body
+        className={`relative flex min-h-dvh w-dvw flex-col font-sans ${inter.variable}`}
+      >
         <TRPCReactProvider>
           <ThemeProvider
             attribute="class"
@@ -61,15 +64,16 @@ function Layout({ children }: { children: React.ReactNode }) {
             enableSystem
             disableTransitionOnChange
           >
-            <header className="sticky top-0 z-40 border-b bg-background/40 backdrop-blur">
+            <header className="sticky top-0 z-50 w-full border-b bg-background/60 backdrop-blur">
               <div className="container flex h-16 items-center justify-between py-4">
                 <MainNav items={navItems} />
                 <UserAccountNav />
               </div>
             </header>
-            <main className="absolute top-0 min-h-full min-w-full  pt-16">
-              {children}
-            </main>
+
+            <main className="container flex-1">{children}</main>
+
+            <SiteFooter className="w-full border-t py-6 md:px-8 md:py-0" />
           </ThemeProvider>
         </TRPCReactProvider>
         <Toaster />
