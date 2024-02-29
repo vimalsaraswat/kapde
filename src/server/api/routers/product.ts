@@ -11,7 +11,7 @@ export const productRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
       z.object({
-        name: z.string().min(2).max(25),
+        name: z.string().min(2).max(50),
         description: z.string().min(10).max(225),
         priceInCents: z.number().positive(),
         quantity: z.number().positive(),

@@ -53,8 +53,8 @@ const image = z
   );
 
 const FormSchema = z.object({
-  name: z.string().min(2),
-  description: z.string().min(10).max(160),
+  name: z.string().min(2).max(50),
+  description: z.string().min(10).max(225),
   price: z.coerce.number().positive(),
   quantity: z.coerce.number().positive(),
   category: z.nativeEnum(ProductCategories),
