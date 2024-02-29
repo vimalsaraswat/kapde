@@ -1,7 +1,7 @@
 "use server";
 
 import { ProductCategories, type Product } from "@prisma/client";
-import { uploadImageBuffer } from "@/lib/cloudinary";
+import { uploadImage } from "@/lib/cloudinary";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -55,8 +55,7 @@ export async function createProduct(formData: FormData) {
   // Upload images to cloudinary and saving the public urls
   const imgUrls: string[] = [];
   for (const image of images) {
-    const arrayBuffer = await image.arrayBuffer();
-    const result = await uploadImageBuffer(arrayBuffer);
+    const result = await uploadImage(image);
     if (result) imgUrls.push(result.secure_url);
   }
 
